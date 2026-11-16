@@ -1,0 +1,58 @@
+[
+  {
+    "name": "fr_cc_search",
+    "description": "Search decisions of the French Constitutional Council (Conseil constitutionnel) by French free text, e.g. \"données personnelles\", \"liberté d'expression\", \"droit de grève\". Returns decision number and kind (DC = review of a law, QPC = priority question of constitutionality, L, LP, ELEC, RIP and others), date, the title the Council gives (parties and subject), the normalised outcome (e.g. \"Conformité - réserve\", \"Non conformité partielle\") and the id for fr_cc_get. Optional date_from / date_to (ISO). Results are ranked by the Council's own search; 10 per page.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "string",
+          "description": "French free text, e.g. \"données personnelles\", \"principe de fraternité\"."
+        },
+        "date_from": {
+          "type": "string",
+          "description": "ISO date YYYY-MM-DD; decisions on or after."
+        },
+        "date_to": {
+          "type": "string",
+          "description": "ISO date YYYY-MM-DD; decisions on or before."
+        },
+        "page": {
+          "type": "number",
+          "description": "Result page, 10 per page (default 1)."
+        },
+        "limit": {
+          "type": "number",
+          "description": "Max results from the page, 1-10 (default 10)."
+        }
+      },
+      "required": [
+        "query"
+      ]
+    }
+  },
+  {
+    "name": "fr_cc_get",
+    "description": "Fetch one Conseil constitutionnel decision by id (from fr_cc_search, e.g. \"2023/20231052QPC\"): number, kind, date, title, normalised outcome, the full French decision text paged with max_chars/offset, and the link to the Council's PDF.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Decision id from fr_cc_search: year/number-and-kind, e.g. \"2023/20231052QPC\", \"2004/2004499DC\"."
+        },
+        "max_chars": {
+          "type": "number",
+          "description": "Max characters to return (default 12000, max 40000)."
+        },
+        "offset": {
+          "type": "number",
+          "description": "Character offset for paging (default 0)."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  }
+]
